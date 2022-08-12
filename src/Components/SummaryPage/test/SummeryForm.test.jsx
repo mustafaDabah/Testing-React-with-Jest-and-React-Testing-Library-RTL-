@@ -3,7 +3,6 @@ import { render, screen } from '../../../test-utils/testing-library-utilies';
 import SummeryForm from '../SummeryForm';
 
 test('write test to ensure checkbox works well', async () => {
-  const user = userEvent.setup();
   render(<SummeryForm />);
   // get the elements
   const checkboxBtn = screen.getByRole('checkbox', { name: /I agree to Terms and Conditions/i });
@@ -14,17 +13,17 @@ test('write test to ensure checkbox works well', async () => {
   expect(btnConfirm).toBeDisabled();
 
   // ensure check button will make btn confirm enable
-  await user.click(checkboxBtn);
+  await userEvent.click(checkboxBtn);
   expect(btnConfirm).toBeEnabled();
 
   // ensure that unchecked btn will be disable the confirm btn
-  await user.click(checkboxBtn);
+  await userEvent.click(checkboxBtn);
   expect(btnConfirm).toBeDisabled();
 });
 
 test('popover response at hover', async () => {
-  render(<SummeryForm />);
   const user = userEvent.setup();
+  render(<SummeryForm />);
 
   // popover is not appear at first
   const nullPopover = screen.queryByText(/no ice cream will actually deliver /i);

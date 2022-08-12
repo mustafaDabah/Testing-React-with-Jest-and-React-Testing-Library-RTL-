@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Row from 'react-bootstrap/Row';
 import ScoopEntry from './ScoopEntry';
-import ToppingEntry from './ToppingEntry';
 import AlertBanner from '../../common/AlertBanner';
 import { pricePerItem } from '../../constants';
 import { useOrderDetailsContext } from '../../context/OrderDetailsContext';
 import { formatCurrency } from '../../uttitlties';
+import ToppingEntry from './ToppingEntry';
 
 function Optional({ optionsType }) {
   const [items, setItems] = useState([]);

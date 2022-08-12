@@ -37,6 +37,9 @@ export function OrderDetailsProvider({ children }) {
     grandTotal: zeroCurrency,
   });
 
+  const [listItemsScoops, setListItemsScoops] = useState([]);
+  const [listItemsToppings, setListItemsToppings] = useState([]);
+
   useEffect(() => {
     const scoopsSubtotal = calculateSubtotal('scoops', optionCounts);
     const toppingsSubtotal = calculateSubtotal('toppings', optionCounts);
@@ -46,6 +49,9 @@ export function OrderDetailsProvider({ children }) {
       toppings: formatCurrency(toppingsSubtotal),
       grandTotal: formatCurrency(grandTotal),
     });
+
+    setListItemsScoops(Array.from(optionCounts.scoops.entries()));
+    setListItemsToppings(Array.from(optionCounts.toppings.entries()));
   }, [optionCounts]);
 
   const value = useMemo(() => {
@@ -59,7 +65,23 @@ export function OrderDetailsProvider({ children }) {
       setOptionCounts(newOptionCounts);
     }
 
-    return [{ ...optionCounts }, total, updateItemCount];
+    function resetTheAllItems() {
+      setOptionCounts({
+        scoops: new Map(),
+        toppings: new Map(),
+      });
+
+      setTotal({
+        scoops: zeroCurrency,
+        toppings: zeroCurrency,
+        grandTotal: zeroCurrency,
+      });
+
+      setListItemsScoops([]);
+      setListItemsToppings([]);
+    }
+
+    return [{ ...optionCounts }, total, updateItemCount, listItemsScoops, listItemsToppings, resetTheAllItems];
   }, [optionCounts, total]);
 
   return (

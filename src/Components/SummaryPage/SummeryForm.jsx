@@ -5,7 +5,7 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
 import axios from 'axios';
 
-function SummeryForm() {
+function SummeryForm({ setOrderPhase, place }) {
   const [enableConfirmBtn, setEnableConfirmBtn] = useState(true);
 
   const popover = (
@@ -35,7 +35,7 @@ function SummeryForm() {
       <Form style={{ display: 'flex' }}>
         <Form.Group controlId="checkConditionAndTerms">
           <Form.Check type="checkbox" id="checkConditionAndTerms" onChange={() => setEnableConfirmBtn(!enableConfirmBtn)} label={checkboxLabel} />
-          <Button variant="primary" type="submit" disabled={enableConfirmBtn}>confirm order</Button>
+          <Button variant="primary" type="submit" disabled={enableConfirmBtn} onClick={() => setOrderPhase(place)}>confirm order</Button>
         </Form.Group>
       </Form>
     </>

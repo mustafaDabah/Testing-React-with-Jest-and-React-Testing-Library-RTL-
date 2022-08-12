@@ -1,3 +1,4 @@
+import userEvent from '@testing-library/user-event';
 import { render, screen } from '../../../test-utils/testing-library-utilies';
 import { OrderDetailsProvider } from '../../../context/OrderDetailsContext';
 import Optional from '../Optional';
@@ -20,4 +21,22 @@ test('displays images for each toppings', async () => {
 
   const textAlt = images.map((el) => el.alt);
   expect(textAlt).toEqual(['Cherries topping', 'M&Ms topping', 'Hot fudge topping']);
+});
+
+test('subtotal scoops at different condition', async () => {
+  render(<Optional optionsType="scoops" />);
+  const user = userEvent.setup();
+
+  const vanillaInput = await screen.findByRole('spinbutton', { name: 'Vanilla' });
+  const TotalScoops = screen.getByText(/scoops total: /i, { exact: false });
+
+  await user.clear(vanillaInput);
+  await user.type(vanillaInput, '-1');
+
+  expect(TotalScoops).toHaveTextContent('0.00');
+
+  await user.clear(vanillaInput);
+  await user.type(vanillaInput, '2.5');
+
+  expect(TotalScoops).toHaveTextContent('0.00');
 });
